@@ -2,6 +2,7 @@ package model;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Statement;
 
@@ -88,5 +89,44 @@ public class Hospital {
 		}
 
 		return output;
+	}
+	
+	public String insertHospitals(String name, String address, String city, String phone, String email, String desc, String hours) {
+		String output = "";
+
+		try {
+			Connection con = connect();
+
+			if (con == null) {
+				return "Error while connecting to the database";
+			}
+
+			// create a prepared statement   
+			String query = " insert into hospitals (`Hospital_ID`,`Hospital_Name`,`Hospital_Address`,`Hospital_City`,`Hospital_Phone`,`Hospital_Email`,`Hospital_Description`,`Open_Hours`)"+" values (?, ?, ?, ?, ?, ?, ?, ?)";
+
+			PreparedStatement preparedStmt = con.prepareStatement(query);
+
+			// binding values 
+			preparedStmt.setInt(1, 0);   
+			preparedStmt.setString(2, name);   
+			preparedStmt.setString(3, address);    
+			preparedStmt.setString(4, city);
+			preparedStmt.setString(5, phone);
+			preparedStmt.setString(6, email);
+			preparedStmt.setString(7, desc);
+			preparedStmt.setInt(8, Integer.parseInt(hours));  
+
+			//execute the statement   
+			preparedStmt.execute();   
+			con.close(); 
+
+			output = "Inserted successfully";
+		}
+		catch (Exception e) {   
+			output = "Error while inserting the Hospitals.";   
+			System.err.println(e.getMessage());  
+		} 
+
+		 return output; 
 	}
 }
