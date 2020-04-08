@@ -22,6 +22,6 @@ public class Hospital_Service {
 	@Path("/")  
 	@Produces(MediaType.TEXT_HTML)  
 	public String readHospitals()  {   
-		return "Hello";  
+		return hospitalObj.readHospitals();
 	}
 }
