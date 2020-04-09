@@ -22,6 +22,6 @@ public class Department_Service {
 	@Path("/")  
 	@Produces(MediaType.TEXT_HTML)  
 	public String readDepartments()  {   
-		return "Prabha";
+		return departmentObj.readDepartments();
 	}
 }
