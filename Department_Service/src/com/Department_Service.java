@@ -34,6 +34,7 @@ public class Department_Service {
 							@FormParam("Head") String Head,    
 							@FormParam("Staff_Vacancies") String Staff_Vacancies)
 	{  
-		
+		String output = departmentObj.insertDepartments(Hospital_ID, Department_Name, Head, Staff_Vacancies);  
+		return output; 
 	}
 }
