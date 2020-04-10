@@ -37,9 +37,11 @@ public class AppointmentReservation {
 	 @FormParam("hospitalName") String HospitalName,
 	 @FormParam("dueDate") String DueDate,
 	 @FormParam("dueTime") Double DueTime,
-	 @FormParam("status") String Status)
+	 @FormParam("status") String Status,
+	 @FormParam("DoctorId") int DocId,
+	 @FormParam("HospitalId") int HosId)
 	{
-	 String output = appObj.insertDetails(PatientID, AppointmentSpecification, DoctorName, HospitalName, DueDate, DueTime, Status);
+	 String output = appObj.insertDetails(PatientID, AppointmentSpecification, DoctorName, HospitalName, DueDate, DueTime, Status, DocId, HosId);
 	return output;
 	}
 	

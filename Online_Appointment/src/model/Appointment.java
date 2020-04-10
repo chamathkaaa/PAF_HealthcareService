@@ -3,6 +3,9 @@ package model;
 import java.sql.*;
 
 public class Appointment {
+	
+	Schedule sch = new Schedule();
+	
 	//A common method to connect to the DB  
 	public Connection connect() {
 		Connection con = null;
@@ -22,7 +25,7 @@ public class Appointment {
 	}
 	
 	//method to insert data
-	public String insertDetails(int PatientID, String AppointmentSpecification, String DoctorName, String HospitalName, String DueDate, Double DueTime, String Status) {
+	public String insertDetails(int PatientID, String AppointmentSpecification, String DoctorName, String HospitalName, String DueDate, Double DueTime, String Status, int DocId, int HosId) {
 		String output = "";
 		try {
 			Connection con = connect();
@@ -30,8 +33,8 @@ public class Appointment {
 				return "Error while connecting to the database";
 			}
 			// create a prepared statement
-			String query = " insert into appointment_doctor(`appointmentId`,`patientId`,`appointmentSpec`,`doctorName`,`hospitalName`,`dueDate`,`dueTime`,`status`)"
-					+ " values (?, ?, ?, ?, ?, ?, ?, ?)";
+			String query = " insert into appointment_doctor(`appointmentId`,`patientId`,`appointmentSpec`,`doctorName`,`hospitalName`,`dueDate`,`dueTime`,`status`,`DoctorId`,`HospitalId`)"
+					+ " values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 			PreparedStatement preparedStmt = con.prepareStatement(query);
 			// binding values
 			preparedStmt.setInt(1, 0);
@@ -42,10 +45,13 @@ public class Appointment {
 			preparedStmt.setString(6, DueDate);
 			preparedStmt.setDouble(7, DueTime);
 			preparedStmt.setString(8, Status);
+			preparedStmt.setInt(9, DocId);
+			preparedStmt.setInt(10, HosId);
 			
-			// execute the statement
+			// execute the statement 			
 			preparedStmt.execute();
 			output = "Inserted successfully";
+			
 		} catch (Exception e) {
 			output = "Error while inserting";
 			System.err.println(e.getMessage());
@@ -64,7 +70,7 @@ public class Appointment {
 			}
 			// Prepare the html table to be displayed
 			output = "<table border=\"1\"><tr><th>Appointment ID</th>" + "<th>Patient ID</th>" + "<th>Appointment Specification</th>"
-					+ "<th>Doctor's Name</th>" + "<th>Hospital Name</th>" + "<th>Date</th>" + "<th>Time</th>" + "<th>Status</th></tr>";
+					+ "<th>Doctor's Name</th>" + "<th>Hospital Name</th>" + "<th>Date</th>" + "<th>Time</th>" + "<th>Status</th>"+ "<th>DId</th>" + "<th>HId</th></tr>";
 			String query = "select * from appointment_doctor";
 			Statement stmt = con.createStatement();
 			ResultSet rs = stmt.executeQuery(query);
@@ -78,6 +84,8 @@ public class Appointment {
 				String DueDate =rs.getString("dueDate");
 				String DueTime =rs.getString("dueTime");
 				String Status = rs.getString("status");
+				String DocId = Integer.toString(rs.getInt("DoctorId"));
+				String HosId = Integer.toString(rs.getInt("HospitalId"));
 				
 				// Add into the html table
 				output += "<tr><td>" + AppointmentID + "</td>";
@@ -88,11 +96,8 @@ public class Appointment {
 				output += "<td>" + DueDate + "</td>";
 				output += "<td>" + DueTime + "</td>";
 				output += "<td>" + Status + "</td>";
-				// buttons
-				output += "<td><input name=\"btnUpdate\" " + " type=\"button\" value=\"Update\"></td>"
-						+ "<td><form method=\"post\" action=\"items.jsp\">" + "<input name=\"btnRemove\" "
-						+ " type=\"submit\" value=\"Remove\">" + "<input name=\"itemID\" type=\"hidden\" " + " value=\""
-						+ AppointmentID + "\">" + "</form></td></tr>";
+				output += "<td>" + DocId + "</td>";
+				output += "<td>" + HosId + "</td>";
 			}
 			con.close();
 			// Complete the html table
