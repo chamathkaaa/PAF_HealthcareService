@@ -10,7 +10,7 @@ public class Appointment {
 		try {
 			Class.forName("com.mysql.cj.jdbc.Driver");
 			con = DriverManager.getConnection(
-					"jdbc:mysql://127.0.0.1:3306/healthcaredb?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC",
+					"jdbc:mysql://127.0.0.1:3306/healthcaredb?useTimezone=true&serverTimezone=UTC",
 					"root", "");
 			// For testing
 			System.out.print("Successfully connected");
@@ -22,7 +22,7 @@ public class Appointment {
 	}
 	
 	//method to insert data
-	public String insertDetails(int PatientID, String AppointmentSpecification, String DoctorName, String HospitalName, Date DueDate, Time DueTime, String Status) {
+	public String insertDetails(int PatientID, String AppointmentSpecification, String DoctorName, String HospitalName, String DueDate, Double DueTime, String Status) {
 		String output = "";
 		try {
 			Connection con = connect();
@@ -39,8 +39,8 @@ public class Appointment {
 			preparedStmt.setString(3, AppointmentSpecification);
 			preparedStmt.setString(4, DoctorName);
 			preparedStmt.setString(5, HospitalName);
-			preparedStmt.setDate(6, DueDate);
-			preparedStmt.setTime(7, DueTime);
+			preparedStmt.setString(6, DueDate);
+			preparedStmt.setDouble(7, DueTime);
 			preparedStmt.setString(8, Status);
 			
 			// execute the statement
@@ -160,9 +160,5 @@ public class Appointment {
 			System.err.println(e.getMessage());
 		}
 		return output;
-	}
-	private void sysout() {
-		// TODO Auto-generated method stub
-
 	}
 }
