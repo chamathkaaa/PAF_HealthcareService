@@ -37,4 +37,13 @@ public class Department_Service {
 		String output = departmentObj.insertDepartments(Hospital_ID, Department_Name, Head, Staff_Vacancies);  
 		return output; 
 	}
+	
+	@PUT 
+	@Path("/") 
+	@Consumes(MediaType.APPLICATION_JSON) 
+	@Produces(MediaType.TEXT_PLAIN) 
+	public String updateDepartments(String DepartmentsData) { 
+		//Convert the input string to a JSON object  
+		JsonObject dep_Object = new JsonParser().parse(DepartmentsData).getAsJsonObject(); 
+	}
 }
