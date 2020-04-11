@@ -67,11 +67,11 @@ public class Department_Service {
 		Document doc = Jsoup.parse(DepartmentsData, "", Parser.xmlParser());     
 		
 		//Read the value from the elements  
-		//String Department_ID = doc.select("Department_ID").text();
-		//String Hospital_ID = doc.select("Hospital_ID").text();
+		String Department_ID = doc.select("Department_ID").text();
+		String Hospital_ID = doc.select("Hospital_ID").text();
 		 
-		// String output = departmentObj.deleteDepartments(Department_ID,Hospital_ID); 
+		String output = departmentObj.deleteDepartments(Department_ID,Hospital_ID); 
 		 
-		 return output; 
-		 }
+		return output; 
+		}
 }
